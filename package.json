@@ -1,7 +1,7 @@
 {
   "name": "chiprg_server",
   "version": "0.1.0",
-  "dependencies":{
+  "dependencies": {
     "mongodb": "~2.2.28",
     "express": "~4.15.3",
     "ejs": "~2.5.6",
