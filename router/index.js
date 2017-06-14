@@ -21,40 +21,10 @@ module.exports = function(app)
       });
   });
 
-  app.get('/freeranking/all', function(req, res){
+  app.get('/freeranking/:stageID/:userID', function(req, res){
     query.connectDB(DBPATH).
       then(function(resolve){
-        return query.getFreeRanking(resolve);
-      }).
-      then(function(resolve){
-        res.send(resolve);
-      });
-  });
-
-  app.get('/freeranking/stage/:stageID', function(req, res){
-    query.connectDB(DBPATH).
-      then(function(resolve){
-        return query.getFreeRankingStage(resolve, req.params.stageID);
-      }).
-      then(function(resolve){
-        res.send(resolve);
-      });
-  });
-
-  app.get('/freeranking/user/:userID', function(req, res){
-    query.connectDB(DBPATH).
-      then(function(resolve){
-        return query.getFreeRankingUser(resolve, req.params.userID);
-      }).
-      then(function(resolve){
-        res.send(resolve);
-      });
-  });
-
-  app.get('/freeranking/stageuser/:stageID/:userID', function(req, res){
-    query.connectDB(DBPATH).
-      then(function(resolve){
-        return query.getFreeRankingStageUser(
+        return query.getFreeRanking(
           resolve, req.params.stageID, req.params.userID);
       }).
       then(function(resolve){
@@ -64,9 +34,29 @@ module.exports = function(app)
 
   app.post('/freeranking', function(req, res){
     query.connectDB(DBPATH).
-      then(function(resolve){ 
-        console.log(req.body);
+      then(function(resolve){
         return query.postFreeRanking(resolve, req.body);
+      }).
+      then(function(resolve){
+        res.send(resolve);
+      });
+  });
+  
+  app.get('/courseranking/:courseID/:userID', function(req, res){
+    query.connectDB(DBPATH).
+      then(function(resolve){
+        return query.getCourseRanking(
+          resolve, req.params.courseID, req.params.userID);
+      }).
+      then(function(resolve){
+        res.send(resolve);
+      });
+  });
+
+  app.post('/courseranking', function(req, res){
+    query.connectDB(DBPATH).
+      then(function(resolve){
+        return query.postCourseRanking(resolve, req.body);
       }).
       then(function(resolve){
         res.send(resolve);

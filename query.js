@@ -16,7 +16,8 @@ Query.connectDB = function(dbPath){
 // [COLLECTION USER]
 Query.getUser = function(db){
   return new Promise(function(resolve, reject){
-    db.collection("userdata").find({}).toArray(function(err, res){
+    db.collection("userdata").find({})
+    .toArray(function(err, res){
       if(err) throw err;
       resolve(res);
       db.close();
@@ -26,43 +27,33 @@ Query.getUser = function(db){
 
 
 // [COLLECTION freeranking]
-Query.getFreeRanking = function(db){
+Query.getFreeRanking = function(db, _stageID, _userID){
   return new Promise(function(resolve, reject){
-    db.collection("freeranking").find({}).toArray(function(err, res){
-      if(err) throw err;
-      resolve(res);
-      db.close();
-    });
-  });
-};
+    var findMethod = function(){
+      if(_stageID == "UNDEFINED" && _userID == "UNDEFINED"){
+        return {};
+      }
+      if(_stageID == "UNDEFINED"){
+        return {userID: _userID};
+      }
+      if(_userID == "UNDEFINED"){
+        return {stageID: _stageID};
+      }      
+      return {userID: _userID, stageID: _stageID};
+    };
 
-Query.getFreeRankingStage = function(db, _stageID){
-  return new Promise(function(resolve, reject){
-    db.collection("freeranking").find({stageID: _stageID}).toArray(function(err, res){
-      if(err) throw err;
-      resolve(res);
-      db.close();
-    });
-  });
-};
+    var sortMethod = function(){
+      return {score:-1, date:1};
+    };
 
-Query.getFreeRankingUser = function(db, _userID){
-  return new Promise(function(resolve, reject){
-    db.collection("freeranking").find({userID: _userID}).toArray(function(err, res){
-      if(err) throw err;
-      resolve(res);
-      db.close();
-    });
-  });
-};
-
-Query.getFreeRankingStageUser = function(db, _stageID, _userID){
-  return new Promise(function(resolve, reject){
-    db.collection("freeranking").find({stageID: _stageID, userID: _userID}).toArray(function(err, res){
-      if(err) throw err;
-      resolve(res);
-      db.close();
-    });
+    db.collection("freeranking")
+      .find(findMethod())
+      .sort(sortMethod())
+      .toArray(function(err, res){
+        if(err) throw err;
+        resolve(res);
+        db.close();
+      });
   });
 };
 
@@ -76,22 +67,43 @@ Query.postFreeRanking = function(db, body){
       score: body.score,
       date: date.getTime()
     };
-    db.collection("freeranking").insert(object, function(err, res){
-    if(err) throw err;
-      resolve(res);
-      db.close();
-    });
+    db.collection("freeranking")
+      .insert(object, function(err, res){
+      if(err) throw err;
+        resolve(res);
+        db.close();
+      });
   });
 };
 
 // [COLLECTION courseranking]
-Query.getCourseRanking = function(db){
+Query.getCourseRanking = function(db, _courseID, _userID){
   return new Promise(function(resolve, reject){
-    db.collection("courseranking").find({}).toArray(function(err, res){
-      if(err) throw err;
-      resolve(res);
-      db.close();
-    });
+    var findMethod = function(){
+      if(_courseID == "UNDEFINED" && _userID == "UNDEFINED"){
+        return {};
+      }
+      if(_courseID == "UNDEFINED"){
+        return {userID: _userID};
+      }
+      if(_userID == "UNDEFINED"){
+        return {courseID: _courseID};
+      }      
+      return {userID: _userID, courseID: _courseID};
+    };
+
+    var sortMethod = function(){
+      return {score:-1, date:1};
+    };
+
+    db.collection("courseranking")
+      .find(findMethod())
+      .sort(sortMethod())
+      .toArray(function(err, res){
+        if(err) throw err;
+        resolve(res);
+        db.close();
+      });
   });
 };
 
@@ -105,11 +117,12 @@ Query.postCourseRanking = function(db, body){
       score: body.score,
       date: date.getTime()
     };
-    db.collection("courseranking").insert(object, function(err, res){
-    if(err) throw err;
-      resolve(res);
-      db.close();
-    });
+    db.collection("courseranking")
+      .insert(object, function(err, res){
+      if(err) throw err;
+        resolve(res);
+        db.close();
+      });
   });
 };
 
