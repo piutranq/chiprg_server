@@ -14,14 +14,25 @@ Query.connectDB = function(dbPath){
 };
 
 // [COLLECTION USER]
-Query.getUser = function(db){
+Query.getUser = function(db, _userID){
   return new Promise(function(resolve, reject){
-    db.collection("userdata").find({})
-    .toArray(function(err, res){
-      if(err) throw err;
-      resolve(res);
-      db.close();
-    });
+    var findMethod = function(){
+      if(_userID == "UNDEFINED"){
+        return {};
+      }      
+      return {userID: _userID};
+    };
+    var sortMethod = function(){
+      return {userID: 1};
+    };
+    db.collection("userdata")
+      .find(findMethod())
+      .sort(sortMethod())
+      .toArray(function(err, res){
+        if(err) throw err;
+        resolve(res);
+        db.close();
+      });
   });
 };
 
@@ -75,6 +86,8 @@ Query.postFreeRanking = function(db, body){
       });
   });
 };
+
+
 
 // [COLLECTION courseranking]
 Query.getCourseRanking = function(db, _courseID, _userID){

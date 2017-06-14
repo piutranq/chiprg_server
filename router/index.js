@@ -11,10 +11,11 @@ module.exports = function(app)
     res.send('GAME');
   });
 
-  app.get('/user/all',function(req,res){
+  app.get('/user/:userID',function(req,res){
     query.connectDB(DBPATH).
       then(function(resolve){
-        return query.getUser(resolve);
+        return query.getUser(
+          resolve, req.params.userID);
       }).
       then(function(resolve){
         res.send(resolve);
