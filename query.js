@@ -38,7 +38,7 @@ Query.getUser = function(db, _userID){
 
 
 // [COLLECTION freeranking]
-Query.getFreeRanking = function(db, _stageID, _userID){
+Query.getFreeRanking = function(db, _stageID, _userID, _limit){
   return new Promise(function(resolve, reject){
     var findMethod = function(){
       if(_stageID == "UNDEFINED" && _userID == "UNDEFINED"){
@@ -60,6 +60,7 @@ Query.getFreeRanking = function(db, _stageID, _userID){
     db.collection("freeranking")
       .find(findMethod())
       .sort(sortMethod())
+      .limit(parseInt(_limit))
       .toArray(function(err, res){
         if(err) throw err;
         resolve(res);
@@ -90,7 +91,7 @@ Query.postFreeRanking = function(db, body){
 
 
 // [COLLECTION courseranking]
-Query.getCourseRanking = function(db, _courseID, _userID){
+Query.getCourseRanking = function(db, _courseID, _userID, _limit){
   return new Promise(function(resolve, reject){
     var findMethod = function(){
       if(_courseID == "UNDEFINED" && _userID == "UNDEFINED"){
@@ -112,6 +113,7 @@ Query.getCourseRanking = function(db, _courseID, _userID){
     db.collection("courseranking")
       .find(findMethod())
       .sort(sortMethod())
+      .limit(parseInt(_limit))
       .toArray(function(err, res){
         if(err) throw err;
         resolve(res);

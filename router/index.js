@@ -11,7 +11,7 @@ module.exports = function(app)
     res.send('GAME');
   });
 
-  app.get('/user/:userID',function(req,res){
+  app.get('/user',function(req,res){
     query.connectDB(DBPATH).
       then(function(resolve){
         return query.getUser(
@@ -22,11 +22,11 @@ module.exports = function(app)
       });
   });
 
-  app.get('/freeranking/:stageID/:userID', function(req, res){
+  app.get('/freeranking', function(req, res){
     query.connectDB(DBPATH).
       then(function(resolve){
         return query.getFreeRanking(
-          resolve, req.params.stageID, req.params.userID);
+          resolve, req.params.stageID, req.params.userID, req.params.limit);
       }).
       then(function(resolve){
         res.send(resolve);
@@ -43,11 +43,11 @@ module.exports = function(app)
       });
   });
   
-  app.get('/courseranking/:courseID/:userID', function(req, res){
+  app.get('/courseranking', function(req, res){
     query.connectDB(DBPATH).
       then(function(resolve){
         return query.getCourseRanking(
-          resolve, req.params.courseID, req.params.userID);
+          resolve, req.params.courseID, req.params.userID, req.params.limit);
       }).
       then(function(resolve){
         res.send(resolve);
