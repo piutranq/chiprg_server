@@ -1,7 +1,21 @@
+
+// CONST
+var PORT = process.env.PORT || 21003;
+
+
+// REQUIRE: npm packages
 var express = require('express');
 var app = express();
-var router = require('./router/main')(app);
+var bodyParser  = require('body-parser');
 
-var server = app.listen(21003, function(){
-  console.log("Express server has started on port 21003");
+
+// CONFIG body-parser
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+var router = require('./router')(app);
+
+// RUN SERVER
+var server = app.listen(PORT, function(){
+  console.log("Express server has started on port "+PORT);
 });
