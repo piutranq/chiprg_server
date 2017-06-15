@@ -9,7 +9,9 @@ var app = express();
 var bodyParser  = require('body-parser');
 
 
-// CONFIG body-parser
+// CONFIG Middlewares
+app.use(express.static('public'));
+app.use(express.static('game'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

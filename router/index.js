@@ -8,7 +8,7 @@ var DBPATH = "mongodb://studio2aoe:t1emppa47ssw883ord@localhost:27017/chiprg";
 module.exports = function(app)
 {
   app.get('/',function(req,res){
-    res.send('GAME');
+    res.send('game/index.html');
   });
 
   app.get('/user',function(req,res){
