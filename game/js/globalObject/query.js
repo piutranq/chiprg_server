@@ -6,10 +6,9 @@ var Query = function() {
       stageID: _stage,
       score: _score
     };
-    console.log(obj);
     $.post("freeranking",obj,
       function(data, status){
-        console.log("Data: " + data + "\nStatus: " + status);
+        return 0;
       });
   }
 
@@ -20,10 +19,9 @@ var Query = function() {
       courseID: _course,
       score: _score
     };
-    console.log(obj);
     $.post("courseranking",obj,
       function(data, status){
-        console.log("Data: " + data + "\nStatus: " + status);
+        return 0;
       });
   }
 
@@ -46,10 +44,9 @@ var Query = function() {
         }
       }
     }
-    console.log(queryString);
     $.get(queryString, 
       function(data, status){
-        console.log(data);
+        return data;
       });
   }
 
@@ -72,10 +69,9 @@ var Query = function() {
         }
       }
     }
-    console.log(queryString);
     $.get(queryString, 
       function(data, status){
-        console.log(data);
+        return data;
       });
   }
 };
