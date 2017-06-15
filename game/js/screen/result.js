@@ -1,6 +1,7 @@
 var screenResult = {
   name: "screenResult",
   var: {
+    stageID: "",
     songGenre: "",
     songTitle: "",
     songArtist: "",
@@ -18,6 +19,7 @@ var screenResult = {
     isAllPerfect: "",
     totalScore:"",
     getResultData: function(){
+      this.stageID = Stagedata.stageID;
       this.songGenre = Stagedata.genre;
       this.songTitle = Stagedata.title;
       this.songArtist = Stagedata.artist;
@@ -209,6 +211,7 @@ var screenResult = {
     this.text.songSelect = game.add.bitmapText(
       215, 157, 'font57', this.string.songSelect, 7);
 
+    this.updateRanking();
   },
   update: function(){
     if(this.var.isAllGreat) {
@@ -239,5 +242,10 @@ var screenResult = {
   },
   retry: function(){
     game.state.start('screenPlayInit');
+  },
+
+  updateRanking: function(){
+    var query = new RGquery;
+    query.postFreeRanking(currentUser.name, currentUser.accountData.type, this.var.stageID, this.var.totalScore);
   }
 };

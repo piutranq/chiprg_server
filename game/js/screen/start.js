@@ -38,6 +38,8 @@ var screenStart = {
 
   goLogin: function(){
     C2TrackerControl.stop(C2Trackers.bgmLoop);
-    game.state.start('screenSelectAccount');
+    // screenSelectAccount를 거치지 않고, Guest Account를 사용하여 로비로 직행
+    currentUser.load({type: "guest"});
+    game.state.start('screenLobby');
   }
 };

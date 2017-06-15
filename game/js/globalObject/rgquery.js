@@ -1,4 +1,6 @@
-var Query = function() {
+var RGqueryResponce;
+
+var RGquery = function() {
   this.postFreeRanking = function(_user, _type, _stage, _score){
     var obj = {
       userID: _user,
@@ -8,7 +10,7 @@ var Query = function() {
     };
     $.post("freeranking",obj,
       function(data, status){
-        return 0;
+        RGqueryResponce = data;
       });
   }
 
@@ -21,7 +23,7 @@ var Query = function() {
     };
     $.post("courseranking",obj,
       function(data, status){
-        return 0;
+        RGqueryResponce = data;
       });
   }
 
@@ -46,7 +48,7 @@ var Query = function() {
     }
     $.get(queryString, 
       function(data, status){
-        return data;
+        RGqueryResponce = data;
       });
   }
 
@@ -71,7 +73,7 @@ var Query = function() {
     }
     $.get(queryString, 
       function(data, status){
-        return data;
+        RGqueryResponce = data;
       });
   }
 };

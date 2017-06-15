@@ -9,7 +9,6 @@ var RGuser = function() {
     this.config="";
   };
   this.load = function(loginQuery){
-    var account = this.accountData;
     if(loginQuery.type == "guest"){
       this.accountData = loginQuery;
       this.isLogin = true;
