@@ -23,7 +23,6 @@ module.exports = function(app)
   });
 
   app.get('/freeranking', function(req, res){
-    console.log(req.query);
     query.connectDB(DBPATH).
       then(function(resolve){
         return query.getFreeRanking(
