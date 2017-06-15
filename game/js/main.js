@@ -1,17 +1,3 @@
-var postFreeRanking = function(_user, _type, _stage, _score){
-  var obj = {
-    userID: _user,
-    userType: _type,
-    stageID: _stage,
-    score: _score
-  };
-  console.log(obj);
-  $.post("http://localhost:21003/freeranking",obj,
-    function(data, status){
-      console.log("Data: " + data + "\nStatus: " + status);
-    });
-}
-
 var game = new Phaser.Game(320, 180, Phaser.AUTO, 'chiprg');
 
 // DECLARE GAME STATES

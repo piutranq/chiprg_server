@@ -17,7 +17,7 @@ Query.connectDB = function(dbPath){
 Query.getUser = function(db, _userID){
   return new Promise(function(resolve, reject){
     var findMethod = function(){
-      if(_userID == "UNDEFINED"){
+      if(_userID == undefined){
         return {};
       }      
       return {userID: _userID};
@@ -41,13 +41,13 @@ Query.getUser = function(db, _userID){
 Query.getFreeRanking = function(db, _stageID, _userID, _limit){
   return new Promise(function(resolve, reject){
     var findMethod = function(){
-      if(_stageID == "UNDEFINED" && _userID == "UNDEFINED"){
+      if(_stageID == undefined && _userID == undefined){
         return {};
       }
-      if(_stageID == "UNDEFINED"){
+      if(_stageID == undefined){
         return {userID: _userID};
       }
-      if(_userID == "UNDEFINED"){
+      if(_userID == undefined){
         return {stageID: _stageID};
       }      
       return {userID: _userID, stageID: _stageID};
@@ -57,15 +57,27 @@ Query.getFreeRanking = function(db, _stageID, _userID, _limit){
       return {score:-1, date:1};
     };
 
-    db.collection("freeranking")
-      .find(findMethod())
-      .sort(sortMethod())
-      .limit(parseInt(_limit))
-      .toArray(function(err, res){
-        if(err) throw err;
-        resolve(res);
-        db.close();
-      });
+    if(_limit == undefined){
+      db.collection("freeranking")
+        .find(findMethod())
+        .sort(sortMethod())
+        .toArray(function(err, res){
+          if(err) throw err;
+          resolve(res);
+          db.close();
+        });
+    }
+    else{
+      db.collection("freeranking")
+        .find(findMethod())
+        .sort(sortMethod())
+        .limit(parseInt(_limit))
+        .toArray(function(err, res){
+          if(err) throw err;
+          resolve(res);
+          db.close();
+        });
+    }
   });
 };
 
@@ -79,6 +91,7 @@ Query.postFreeRanking = function(db, body){
       score: body.score,
       date: date.getTime()
     };
+    console.log(object);
     db.collection("freeranking")
       .insert(object, function(err, res){
       if(err) throw err;
@@ -94,13 +107,13 @@ Query.postFreeRanking = function(db, body){
 Query.getCourseRanking = function(db, _courseID, _userID, _limit){
   return new Promise(function(resolve, reject){
     var findMethod = function(){
-      if(_courseID == "UNDEFINED" && _userID == "UNDEFINED"){
+      if(_courseID == undefined && _userID == undefined){
         return {};
       }
-      if(_courseID == "UNDEFINED"){
+      if(_courseID == undefined){
         return {userID: _userID};
       }
-      if(_userID == "UNDEFINED"){
+      if(_userID == undefined){
         return {courseID: _courseID};
       }      
       return {userID: _userID, courseID: _courseID};
@@ -110,15 +123,27 @@ Query.getCourseRanking = function(db, _courseID, _userID, _limit){
       return {score:-1, date:1};
     };
 
-    db.collection("courseranking")
-      .find(findMethod())
-      .sort(sortMethod())
-      .limit(parseInt(_limit))
-      .toArray(function(err, res){
-        if(err) throw err;
-        resolve(res);
-        db.close();
-      });
+    if(_limit == undefined){
+      db.collection("courseranking")
+        .find(findMethod())
+        .sort(sortMethod())
+        .toArray(function(err, res){
+          if(err) throw err;
+          resolve(res);
+          db.close();
+        });
+    }
+    else{
+      db.collection("courseranking")
+        .find(findMethod())
+        .sort(sortMethod())
+        .limit(parseInt(_limit))
+        .toArray(function(err, res){
+          if(err) throw err;
+          resolve(res);
+          db.close();
+        });
+    }
   });
 };
 
