@@ -12,6 +12,7 @@ var screenRanking = {
     screenTitle: "",
     list: [],
     ranking: [],
+    rankingGuide: ""
   },
 
   img: {
@@ -41,6 +42,7 @@ var screenRanking = {
 
     selectedListNum: 0,
     selectedListName: "",
+    selectedListID: "",
     selectedPattern: 0,
 
     selectedMode: 0,
@@ -86,7 +88,8 @@ var screenRanking = {
 
     // Image Init
     this.img.background = game.add.sprite(0, 0, 'background');
-    this.img.songselector= game.add.sprite(10, 30, 'modeSelector');
+    this.img.modeSelector= game.add.button(
+      10, 30, 'modeSelector', this.modeToggle, this);
     this.img.patternSelector = game.add.sprite(135, 90, 'patternSelector');
 
     this.button.backspace = game.add.button(
@@ -94,9 +97,12 @@ var screenRanking = {
     this.button.help = game.add.button(
       295, 10, 'helpbutton', this.buttonHelp, this);
     this.button.search = game.add.button(
-      250, 150, 'invisible', this.buttonStart, this);
-    this.button.iputName = game.add.button(
-      250, 150, 'invisible', this.buttonStart, this);
+      180, 150, 'invisible', this.buttonSearch, this);
+    this.text.search = game.add.bitmapText(
+      210, 155, 'font79', 'SEARCH', 9);
+    this.button.search.width = 130;
+    this.button.search.height = 20;
+    
 
     this.button.list0 = game.add.button(
       30,  30, 'invisible', this.buttonList0, this);
@@ -162,6 +168,14 @@ var screenRanking = {
           SomeMath.pad0(this.var.currentPlaylist.list[i].level[2], 2, ' '), 7);
       }
     }
+    
+    this.text.rankingGuide = game.add.bitmapText(181, 31,      'font57', 
+      '    ID           SCORE    DATE  ', 7);
+    for(var j=0; j<11; j++){
+      this.text.ranking[j] = game.add.bitmapText(181, 41+j*10, 'font57', 
+      '                              ', 7);
+    }
+
     this.text.screenTitle = game.add.bitmapText(30, 10, 'font79', this.string.screenTitle, 9);
 
     this.var.selectedModeList = screenRankingInit.freePlaylist;
@@ -212,8 +226,8 @@ var screenRanking = {
   buttonHelp: function(pointer, isOver){
     if (isOver) this.presshelp();
   },
-  buttonStart: function( pointer, isOver){
-    if (isOver) this.pressstart();
+  buttonSearch: function( pointer, isOver){
+    if (isOver) this.pressSearch();
   },
 
   buttonList0: function(pointer, isOver){
@@ -309,9 +323,12 @@ var screenRanking = {
       this.img.patternSelector.frame = 3;
     }
     else {
-      this.text.list[3].ez.setText(SomeMath.pad0(this.var.currentPlaylist.list[3].level[0], 2, ' '));
-      this.text.list[3].nm.setText(SomeMath.pad0(this.var.currentPlaylist.list[3].level[1], 2, ' '));
-      this.text.list[3].hd.setText(SomeMath.pad0(this.var.currentPlaylist.list[3].level[2], 2, ' '));
+      this.text.list[3].ez.setText(
+        SomeMath.pad0(this.var.currentPlaylist.list[3].level[0], 2, ' '));
+      this.text.list[3].nm.setText(
+        SomeMath.pad0(this.var.currentPlaylist.list[3].level[1], 2, ' '));
+      this.text.list[3].hd.setText(
+        SomeMath.pad0(this.var.currentPlaylist.list[3].level[2], 2, ' '));
       this.img.patternSelector.frame = this.var.selectedPattern;
     }
   },
@@ -326,6 +343,24 @@ var screenRanking = {
   },
   pressSearch: function(){
     console.log('pressSearch()');
+    var query = new RGquery;
+    if(this.var.selectedMode == 0){
+      var ID = 
+        screenRankingInit
+        .freePlaylist
+        .list[this.var.selectedListNum]
+        .stageID[this.var.selectedPattern];
+      console.log(ID);
+      query.getFreeRanking(ID, undefined, 10, this.printRanking);
+    }
+    else if(this.var.selectedMode == 1){
+      var ID = 
+      screenRankingInit.coursePlaylist
+      .list[this.var.selectedListNum]
+      .courseID;
+      console.log(ID);
+      query.getCourseRanking(ID, undefined, 10, this.printRanking);
+    }
   },
   selectionUpdate: function(list){
     this.setCurrentPlaylist(this.var.selectedListNum, list);
@@ -342,6 +377,7 @@ var screenRanking = {
     this.selectionUpdate(screenRanking.var.selectedModeList);
   },
   modeToggle: function(){
+    this.var.selectedListNum = 0;
     switch(this.var.selectedMode){
     case 0:
       this.coursePlayMode();
@@ -351,5 +387,39 @@ var screenRanking = {
       break;
     }
     this.img.modeSelector.frame = this.var.selectedMode;
+  },
+  printRanking: function(rankingData){
+    var length = rankingData.length;
+    var date = {};
+    var userName;
+    var scoreString;
+    var orderString = function(n){
+      switch(n){
+      case 0:
+        return '1ST ';
+      case 1:
+        return '2ND ';
+      case 2:
+        return '3RD ';
+      default:
+        return JSON.stringify(n+1)+'TH ';
+      }
+    }
+
+    for(var i=0; i<11; i++){
+      if(i<rankingData.length){
+        date.msec = new Date(rankingData[i].date);
+        date.year = JSON.stringify(date.msec.getFullYear()).slice(2,4);
+        date.month = SomeMath.pad0(date.msec.getMonth()+1, 2, 0);
+        date.day = SomeMath.pad0(date.msec.getDate(), 2, 0);
+        date.string = date.year+date.month+date.day;
+        userName = SomeMath.paddRight(rankingData[i].userID, 12, ' ');
+        scoreString = SomeMath.pad0(rankingData[i].score, 8, '0').slice(0,8);
+        screenRanking.text.ranking[i].setText(orderString(i)+userName+' '+scoreString+' '+date.string);
+      }
+      else {
+        screenRanking.text.ranking[i].setText(' ');
+      }
+    }
   }
 };

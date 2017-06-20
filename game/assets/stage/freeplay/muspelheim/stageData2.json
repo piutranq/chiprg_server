@@ -4,8 +4,8 @@
   "title" : "OPERATION MUSPELHEIM",
   "artist": "PIU TRANQUILLO",
 
-  "pattern": "",
-  "songLevel": 3,
+  "pattern": "HARD",
+  "songLevel": 10,
   "songLength": 94,
   "tempo": 120,
 
@@ -43,11 +43,11 @@
       {"type": 0               }
     ],
     [
-      {"type": 10, "start": 8000},
+      {"type": 10, "start": 7000},
       {"type": 0               }
     ],
     [
-      {"type": 10, "start": 9000},
+      {"type": 10, "start": 7000},
       {"type": 0               }
     ]
   ]

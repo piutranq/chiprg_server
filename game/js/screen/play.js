@@ -354,6 +354,8 @@ var screenPlay = {
   },
   create: function(){
 
+    this.objimg = [ [], [], [], [], [], [] ];
+
     // Add touch area
     this.area.button1 = Skindata.button1.area;
     this.area.button2 = Skindata.button2.area;

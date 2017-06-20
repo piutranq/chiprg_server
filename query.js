@@ -157,6 +157,7 @@ Query.postCourseRanking = function(db, body){
       score: body.score,
       date: date.getTime()
     };
+    console.log(object);
     db.collection("courseranking")
       .insert(object, function(err, res){
       if(err) throw err;

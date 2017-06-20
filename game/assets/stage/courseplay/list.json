@@ -4,12 +4,13 @@
     {
       "name": "PIU TRANQUILLO",
       "path": "piutranq",
+      "courseID": "piutranq",
       "level": 4,
       "entry" : [
         { "title": "16-BEAT CRUEL PUNISHER", "tempo": 128 },
-        { "title": "THE 5TH AXIS", "tempo": 115 },
-        { "title": "NAMELESS HERO", "tempo": 120 },
-        { "title": "OPERATION MUSPELHEIM", "tempo": 128 }
+        { "title": "THE 5TH AXIS", "tempo": 124 },
+        { "title": "OPERATION MUSPELHEIM", "tempo": 120 },
+        { "title": "16-BEAT CRUEL PUNISHER", "tempo": 128 }
       ]
     }
   ]

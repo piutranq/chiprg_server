@@ -10,7 +10,7 @@ var RGquery = function() {
     };
     $.post("freeranking",obj,
       function(data, status){
-        RGqueryResponce = data;
+        console.log(data);
       });
   }
 
@@ -23,11 +23,11 @@ var RGquery = function() {
     };
     $.post("courseranking",obj,
       function(data, status){
-        RGqueryResponce = data;
+        console.log(data);
       });
   }
 
-  this.getFreeRanking = function(_stageID, _userID, _limit){
+  this.getFreeRanking = function(_stageID, _userID, _limit, _callback){
     var queryString = "freeranking"
     if(_stageID != undefined){
       queryString+="?stageID="+_stageID;
@@ -46,13 +46,14 @@ var RGquery = function() {
         }
       }
     }
+    console.log(queryString);
     $.get(queryString, 
       function(data, status){
-        RGqueryResponce = data;
+        _callback(data);
       });
   }
 
-  this.getCourseRanking = function(_courseID, _userID, _limit){
+  this.getCourseRanking = function(_courseID, _userID, _limit, _callback){
     var queryString = "courseranking"
     if(_courseID != undefined){
       queryString+="?courseID="+_courseID;
@@ -73,7 +74,7 @@ var RGquery = function() {
     }
     $.get(queryString, 
       function(data, status){
-        RGqueryResponce = data;
+        _callback(data);
       });
   }
 };

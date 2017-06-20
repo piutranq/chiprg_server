@@ -1,13 +1,13 @@
 {
-  "stageID" : "axis_0",
+  "stageID" : "axis_2",
   "genre" : "",
   "title" : "THE 5TH AXIS",
   "artist": "PIU TRANQUILLO",
 
-  "pattern": "",
-  "songLevel": 1,
+  "pattern": "HARD",
+  "songLevel": 8,
   "songLength": 70,
-  "tempo": 124,
+  "tempo": 123,
 
   "judgeTime": {
     "perfect": 31,
