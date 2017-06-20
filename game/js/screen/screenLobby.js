@@ -229,7 +229,7 @@ var screenLobby = {
         break;
       case 3:
         console.log('ranking info');
-        game.state.start('');
+        game.state.start('screenRankingInit');
         break;
       case 4:
         console.log('config');
