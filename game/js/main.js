@@ -20,5 +20,6 @@ game.state.add('screenPlayEntryInit', screenPlayEntryInit);
 game.state.add('screenEntryResult', screenEntryResult);
 game.state.add('screenCourseResult', screenCourseResult);
 game.state.add('screenPostFreeRanking', screenPostFreeRanking);
+game.state.add('screenPostCourseRanking', screenPostCourseRanking);
 
 game.state.start('screenInit');

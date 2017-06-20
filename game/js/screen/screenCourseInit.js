@@ -11,6 +11,7 @@ var screenCourseInit = {
   },
   create: function(){
     courseData = game.cache.getJSON('courseData');
+    CourseResultData.courseID = courseData.courseID;
     CourseResultData.courseTitle = courseData.title;
     CourseResultData.courseLevel = courseData.level;
     for(var i=0; i<4; i++){
@@ -19,9 +20,12 @@ var screenCourseInit = {
   },
   update: function(){
     this.var.isCoursePlay = true;
+    console.log('isCourse ' + this.var.isCoursePlay);
     if(this.var.currentEntry >= 4){
       console.log('go screenCourseResult');
       this.var.isCoursePlay = false;
+      this.var.currentEntry = 0;
+      screenCourseResult.rankingUploded = false;
       game.state.start('screenCourseResult');
     }
     else{

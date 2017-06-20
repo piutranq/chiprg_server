@@ -1,4 +1,5 @@
 var CourseResultData = {
+  courseID: "",
   courseTitle: "",
   courseLevel: "",
   entry: [

@@ -1,14 +1,8 @@
 var screenCourseResult = {
+  rankingUploded: "",
   name: "screenCourseResult",
   string: {
-    screenTitle: function(){
-      switch(screenResult.var.isCleared()){
-      case true:
-        return "COURSE ALL CLEAR";
-      case false:
-        return "STAGE FAILED";
-      }
-    },
+    screenTitle: "COURSE ALL CLEAR",
     bestRecord:[
       "BEST RECORD"
     ],
@@ -19,6 +13,7 @@ var screenCourseResult = {
     retry: "RETRY",
     lobby: "LOBBY",
     songSelect: "COURSE SELECT",
+    postRanking: "POST RANKING"
   },
   text: {
     screenTitle: "",
@@ -73,7 +68,8 @@ var screenCourseResult = {
 
     button1: "",
     button2: "",
-    button3: ""
+    button3: "",
+    button4: ""
   },
 
   title: "",
@@ -94,7 +90,7 @@ var screenCourseResult = {
       this.button3touched, this);
 
     this.text.screenTitle = game.add.bitmapText(
-      10, 11, 'font79', this.string.screenTitle(), 9);
+      10, 11, 'font79', this.string.screenTitle, 9);
     this.text.courseTitle = game.add.bitmapText(
       20, 37, 'font57', CourseResultData.courseTitle, 7);
     this.text.songPattern = game.add.bitmapText(
@@ -126,6 +122,13 @@ var screenCourseResult = {
       190, 30, 'font57', this.string.totalGrade, 7);
     this.text.totalGradeVal = game.add.bitmapText(
       200, 36, 'font79', CourseResultData.totalGradeValue, 63);
+
+    if(!this.rankingUploded){
+      this.img.button4 = game.add.button(190, 100, 'buttonLong',
+      this.button4touched, this);
+      this.text.lobby = game.add.bitmapText(
+      215, 107, 'font57', this.string.postRanking, 7);
+    }
   },
   update: function(){
 
@@ -157,6 +160,9 @@ var screenCourseResult = {
   button3touched: function(){
     this.songSelect();
   },
+  button4touched: function(){
+    this.postRanking();
+  },
   lobby: function() {
     game.state.start('screenLobby');
   },
@@ -165,5 +171,8 @@ var screenCourseResult = {
   },
   retry: function(){
     game.state.start('screenPlayInit');
-  }
+  },
+  postRanking: function(){
+    game.state.start('screenPostCourseRanking');
+  },
 };

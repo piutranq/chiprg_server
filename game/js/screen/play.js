@@ -1194,11 +1194,15 @@ var screenPlay = {
   },
 
   goToResult: function() {
-    if(screenCourseInit.var.isCoursePlay === true)
+    if(screenCourseInit.var.isCoursePlay === true){
+      console.log('go to entryresult ' + screenCourseInit.var.isCoursePlay);
       game.state.start('screenEntryResult');
-    else
+    }
+    else{
       screenResult.rankingUploded = false;
       game.state.start('screenResult');
+    }
+      
   }
 
 };
