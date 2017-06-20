@@ -43,6 +43,10 @@ var screenInit = {
       'sel40', PATH.uiPath(PATH.uiName)+ 'keyboard/sel40.png', 40, 20);
     game.load.spritesheet(
       'sel50', PATH.uiPath(PATH.uiName)+ 'keyboard/sel50.png', 50, 20);
+    game.load.spritesheet(
+      'kbdDialogbox', PATH.uiPath(PATH.uiName)+ 'keyboard/dialogbox.png', 300, 80);
+    game.load.spritesheet(
+      'kbdDialogbutton', PATH.uiPath(PATH.uiName)+ 'keyboard/dialogbutton.png', 80, 20);
 
     // Load Logo
     game.load.image(

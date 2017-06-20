@@ -11,6 +11,19 @@ var Vkeyboard = function(initx, inity){
   this.text = game.add.bitmapText(this.x+10, this.y-15, 'font79', this.string, 9);
   this.textbeam = game.add.sprite(this.text.x, this.text.y, 'beam', 0);
   this.textbeam.animations.add('beaming');
+  this.pressEnter = function(){
+    console.log('PRESS ENTER');
+  };
+  this.keyboardToggle = function(onoff){
+    switch(onoff){
+    case 'OFF':
+      this.isOn = false;
+      break;
+    case 'ON':
+      this.isOn = true;
+      break;
+    }
+  };
   this.beaming = function(){
     this.textbeam.animations.play('beaming', 2, true);
   };
@@ -209,6 +222,97 @@ var Vkeyboard = function(initx, inity){
   this.sel30 = game.add.image(-350, 0, 'sel30', 0);
   this.sel40 = game.add.image(-360, 0, 'sel40', 0);
   this.sel50 = game.add.image(-370, 0, 'sel50', 0);
+  this.dialogbox = game.add.image(-640, 0, 'kbdDialogbox', 0);
+  this.dialogtext = game.add.bitmapText(0, 0, 'font79', '', 9);
+  this.okbutton = game.add.button(-400, 0, 'kbdDialogbutton', this.pressOk,
+    this);
+  this.okText = game.add.bitmapText(0, 0, 'font79', '', 9);
+  this.cancelbutton = game.add.button(-400, 0, 'kbdDialogbutton', this.pressCancel,
+    this);
+  this.cancelText = game.add.bitmapText(0, 0, 'font79', '', 9)
+
+  this.pressOk = function(){
+    console.log('PRESS OK');
+  };
+  this.pressCancel = function(){
+    this.dialog('OFF', '');
+  };
+
+  this.moveDialogSelector = function(){
+    if (game.input.keyboard.justPressed(RGinput.menu.keyLEFT) ||
+        game.input.gamepad.pad1.justPressed(RGinput.menu.padLEFT)){
+        this.okbutton.frame = 1;
+        this.cancelbutton.frame = 0;
+    }
+    if (game.input.keyboard.justPressed(RGinput.menu.keyRIGHT) ||
+        game.input.gamepad.pad1.justPressed(RGinput.menu.padRIGHT)){
+        this.okbutton.frame = 0;
+        this.cancelbutton.frame = 1;
+    }
+  };
+
+  this.pressDialogButton = function(){
+    if (game.input.keyboard.justPressed(RGinput.menu.keyOK) ||
+        game.input.gamepad.pad1.justPressed(RGinput.menu.padOK)){
+      if(this.okbutton.frame == 1 && this.cancelbutton.frame == 0){
+        this.pressOk();
+      }
+      else if(this.okbutton.frame == 0 && this.cancelbutton.frame == 1){
+        this.pressCancel();
+        this.isOn = true;
+        this.stringInit();
+      }
+    }
+  };
+  
+  this.dialog = function(onoff, text){
+    switch(onoff){
+    case 'ON':
+      this.dialogbox.x = this.x;
+      this.dialogbox.y = this.y;
+      this.dialogtext.x = this.x + 20;
+      this.dialogtext.y = this.y + 20;
+      
+      this.okbutton.x = this.x + 120;
+      this.okbutton.y = this.y + 50;
+      this.okbutton.frame = 0;
+      this.okText.x = this.okbutton.x + 10;
+      this.okText.y = this.okbutton.y + 5;
+      
+      this.cancelbutton.x = this.x + 210;
+      this.cancelbutton.y = this.y + 50;
+      this.cancelbutton.frame = 1;
+      this.cancelText.x = this.cancelbutton.x + 10;
+      this.cancelText.y = this.cancelbutton.y + 5;
+
+      this.dialogtext.setText(text);
+      this.okText.setText('    OK    ');
+      this.cancelText.setText('  CANCEL  ');
+      break;
+    case 'OFF':
+      this.dialogbox.x = -640;
+      this.dialogbox.y = 0;      
+      this.dialogtext.x = 0;
+      this.dialogtext.y = 0;
+      
+      this.okbutton.x = -400;
+      this.okbutton.y = 0;
+      this.okbutton.frame = 0;
+      this.okText.x = 0;
+      this.okText.y = 0;
+      
+      this.cancelbutton.x = -400;
+      this.cancelbutton.y = 0;
+      this.cancelbutton.frame = 0;
+      this.cancelText.x = 0;
+      this.cancelText.y = 0;
+
+      this.dialogtext.setText(text);
+      this.okText.setText('');
+      this.cancelText.setText('');
+      break;
+    }
+  }
 
   this.selInit = function(){
     this.sel20.x = -340;
@@ -764,6 +868,7 @@ var Vkeyboard = function(initx, inity){
       case 'BACK':
         break;
       case 'ENTER':
+        this.pressEnter();
         break;
       case 'SPACE':
         break;
@@ -880,7 +985,14 @@ var Vkeyboard = function(initx, inity){
     }
     if(ret!==false){
       this.inputMode = 'keyboard';
-      this.stringPush(ret);
+      switch(ret){
+      case 'ENTER':
+        this.pressEnter();
+        break;
+      default:
+        this.stringPush(ret);
+        break;
+      }
     }
     if(this.inputMode == 'keyboard'){
       if(game.input.keyboard.isDown(Phaser.Keyboard.ONE  )) 

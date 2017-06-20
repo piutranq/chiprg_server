@@ -1,4 +1,5 @@
 var screenResult = {
+  rankingUploded: "",
   name: "screenResult",
   var: {
     stageID: "",
@@ -92,6 +93,7 @@ var screenResult = {
     retry: "RETRY",
     lobby: "LOBBY",
     songSelect: "SONG SELECT",
+    postRanking: "POST RANKING"
   },
   text: {
     screenTitle: "",
@@ -211,7 +213,13 @@ var screenResult = {
     this.text.songSelect = game.add.bitmapText(
       215, 157, 'font57', this.string.songSelect, 7);
 
-    this.updateRanking();
+    if(this.var.isCleared() && !this.rankingUploded){
+      this.img.button4 = game.add.button(190, 100, 'buttonLong',
+      this.button4touched, this);
+      this.text.lobby = game.add.bitmapText(
+      215, 107, 'font57', this.string.postRanking, 7);
+    }
+
   },
   update: function(){
     if(this.var.isAllGreat) {
@@ -234,6 +242,12 @@ var screenResult = {
   button3touched: function(){
     this.songSelect();
   },
+  button4touched: function(){
+    this.postRanking();
+  },
+  postRanking: function(){
+    game.state.start('screenPostFreeRanking');
+  },
   lobby: function() {
     game.state.start('screenLobby');
   },
@@ -242,10 +256,5 @@ var screenResult = {
   },
   retry: function(){
     game.state.start('screenPlayInit');
-  },
-
-  updateRanking: function(){
-    var query = new RGquery;
-    query.postFreeRanking(currentUser.name, currentUser.accountData.type, this.var.stageID, this.var.totalScore);
   }
 };

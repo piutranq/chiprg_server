@@ -1197,6 +1197,7 @@ var screenPlay = {
     if(screenCourseInit.var.isCoursePlay === true)
       game.state.start('screenEntryResult');
     else
+      screenResult.rankingUploded = false;
       game.state.start('screenResult');
   }
 
